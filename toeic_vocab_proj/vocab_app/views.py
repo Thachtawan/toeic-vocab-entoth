@@ -10,12 +10,15 @@ from .constants.const_variable import TOTAL_WORD, CORRECT_ANSWER, CURRENT_WORD_I
 
 
 def index(request):
-    if request.session[USERNAME] != "":
-        return redirect(MAIN)
+    try:
+        if request.session[USERNAME] != "":
+            return redirect(MAIN)
     
-    request.session[USERNAME] = ""
-    return render(request, HOME)
-
+        request.session[USERNAME] = ""
+        return render(request, HOME)
+    except:
+        request.session[USERNAME] = ""
+        return render(request, HOME)
 
 def login(request):
     if request.method == "POST":
