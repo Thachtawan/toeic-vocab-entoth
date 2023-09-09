@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#logout-btn").click(function () {
+                $(".btn-close").click();
+                $("#logout-modal").css("display", "block");
+            });
+
+            $("#logout-yes").click(function () {
+                window.location.href = "logout";
+            });
+
+            $("#logout-no").click(function () {
+                $("#logout-modal").css("display", "none");
+            });
+        });
+
+
+    </script>
+
+    {% block title %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- log out modal -->
+    <div id="logout-modal" class="custom-modal">
+        <div class="custom-modal-body">
+            <div class="custom-modal-text">
+                Are you sure you want to log out?
+            </div>
+            <div class="modal-btn-arrange">
+                <button id="logout-yes" class="custom-modal-btn">Yes</button>
+                <button id="logout-no" class="custom-modal-btn cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-dark main-bg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">TOEIC VOCAB TUTOR</a>
+
+            {% if username != none %}
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Hello, {{ username }}!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        {% comment %} <li class="nav-item">
+                            <a class="nav-link" href="#">Test Records</a>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="nav-item">
+                            <a class="nav-link" href="#">Statistic</a>
+                        </li> {% endcomment %}
+                        <li class="nav-item">
+                            <a class="nav-link add-cursor-pointer" id="logout-btn">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>

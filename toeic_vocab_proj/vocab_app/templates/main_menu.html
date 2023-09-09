@@ -1,0 +1,43 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : SELECT MENU</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="{% if page == "select_category" %}select_category{% else %}menu-container{% endif %}">
+
+    {% if page == "select_category" %}
+
+    {% for menu in menu_list %}
+
+    <form method="post" action="select_menu_category">
+        {% csrf_token %}
+        <input name="menu" value="{{ menu }}" style="display: none;">
+        <button class="select-practice-type">
+            {{ menu }}
+        </button>
+    </form>
+
+    {% endfor %}
+
+    {% else %}
+
+    {% for menu in menu_list %}
+
+    <form method="post" action="select_menu">
+        {% csrf_token %}
+        <input name="menu" value="{{ menu }}" style="display: none;">
+        <button class="select-practice-type">
+            {{ menu }}
+        </button>
+    </form>
+
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

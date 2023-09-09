@@ -1,0 +1,98 @@
+{% extends "practice.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : PRACTICE {{ type }}</title>
+{% endblock %}
+
+{% block practice_vocab %}
+
+<div class="practice-container-start">
+
+    <!-- Header -->
+    <div class="practice-header">
+        <div style="font-weight: bold;">{{ selected_type }}</div>
+        <div>{{ current_word }} / {{ total_word }}</div>
+    </div>
+
+    <!-- progress bar section -->
+
+    <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ progress }}" aria-valuemin="0"
+        aria-valuemax="100" style="width: 100%; margin-top: 20px">
+        <div class="progress-bar bg-success" style="width: {{ progress }}%"></div>
+    </div>
+    <div style="width: 100%; text-align: right; margin-top: 10px;">{{ progress }}%</div>
+    
+
+    <!-- question section -->
+    <div class="practice-question-box">
+        <div class="practice-question">
+            {{ question }}
+        </div>
+        <br>
+        <strong>Synonyms:</strong> {{ synonyms }}
+    </div>
+
+    <div class="practice-choices">
+        {% for choice in choices %}
+
+        <form method="post" action="check_answer">
+            {% csrf_token %}
+            <input name="choice" value="{{ choice }}" style="display: none;">
+
+            {% if is_correct == True or is_correct == False %}
+
+            {% if choice == correct_answer %}
+
+            <button class="btn practice-choice correct_answer" disabled>
+                {{ choice }}
+            </button>
+
+            {% elif choice == answer and choice != correct_answer %}
+
+            <button class="btn practice-choice wrong_answer" disabled>
+                {{ choice }}
+            </button>
+
+            {% else %}
+
+            <button class="btn practice-choice" disabled>
+                {{ choice }}
+            </button>
+
+            {% endif %}
+
+            {% else %}
+
+            <button class="btn practice-choice">
+                {{ choice }}
+            </button>
+
+            {% endif %}
+        </form>
+
+        {% endfor %}
+    </div>
+
+    <!-- next button and answer result section -->
+    {% if is_correct == True %}
+
+    <div class="result-answer">
+        {% comment %} <div class="alert alert-success check_answer" role="alert">
+            Correct!
+        </div> {% endcomment %}
+        <a class="btn btn-primary next-question-btn" href="next_question">Next</a>
+    </div>
+
+    {% elif is_correct == False %}
+
+    <div class="result-answer">
+        {% comment %} <div class="alert alert-danger check_answer" role="alert">
+            Wrong Answer!
+        </div> {% endcomment %}
+        <a class="btn btn-primary next-question-btn" href="next_question">Next</a>
+    </div>
+
+    {% endif %}
+</div>
+
+{% endblock %}

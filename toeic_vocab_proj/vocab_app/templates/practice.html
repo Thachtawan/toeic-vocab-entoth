@@ -1,0 +1,34 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : PRACTICE {{ type }}</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="menu-container">
+
+    {% if practice_status == none %}
+
+    <div class="practice-container">
+        {% if category != "" %}
+        <div class="practice-paragraph">You will be tested with the words from "{{ type }}" type.</div>
+        <div class="practice-paragraph">"{{ category }}" category.</div>
+        {% else %}
+        <div class="practice-paragraph">You will be tested with the words from "{{ type }}" type.</div>
+        {% endif %}
+        <br>
+        <div class="practice-paragraph">Total word: {{ word_amount }}.</div>
+        <a class="btn btn-primary start-btn" href="start_practice">Start</a>
+    </div>
+
+    {% else %}
+
+    {% block practice_vocab %}
+    {% endblock %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : PRACTICE {{ word_type }} Total Result</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="menu-container">
+
+    <div class="practice-container">
+        <div>
+            You've practice <strong>{{ word_type }}</strong> VOCABULARY.
+        </div>
+        {% if category != "" %}
+        <div>
+            With <strong>{{ category }}</strong> category.
+        </div>
+        {% endif %}
+        <div>
+            Total Words: <strong>{{ total_word }}</strong>
+        </div>
+        <div>
+            Correct Words: <strong>{{ correct_amount }}</strong>
+        </div>
+        <div>
+            Accuracy: <strong>{{ accuracy }}%</strong>
+        </div>
+        <a class="btn btn-primary start-btn" href="/">Return</a>
+    </div>
+
+</div>
+
+{% endblock %}

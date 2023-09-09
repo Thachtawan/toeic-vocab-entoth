@@ -1,0 +1,81 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : {{ action }}</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-area">
+
+    {% if action == "login" %}
+
+    <form method="post" action="login">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <input type="submit" value="Log In" class="btn btn-success">
+        {% if status != None and status == "fail"%}
+        <div>Username or password is incorrect!</div>
+        {% endif %}
+    </form>
+    
+    {% else %}
+    
+    <form method="post" action="register">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control">
+            <div class="form-text">Use the username that unique to you.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input id="input-password" type="password" name="password" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password_2" class="form-label">Confirm Password</label>
+            <input id="password-confirmation" type="password" name="password_2" class="form-control">
+        </div>
+        <input type="submit" value="Submit" class="btn btn-success">
+        {% if status != None and status == "fail"%}
+        <div>This username has already been used.</div>
+        {% endif %}
+    </form>
+    
+    {% endif %}
+
+</div>
+
+<script>
+    const inputPassword = document.getElementById('input-password');
+    const passwordConfirmation = document.getElementById('password-confirmation');
+
+    console.log(inputPassword)
+    console.log(passwordConfirmation)
+
+    function confirmPassword() {
+        const inputPasswordValue = inputPassword.value;
+        const confirmationValue = passwordConfirmation.value;
+
+        if (confirmationValue !== "") {
+            if (inputPasswordValue != confirmationValue) {
+                passwordConfirmation.style.borderColor = "red";
+            }
+            else {
+                passwordConfirmation.style.borderColor = "green";
+            }
+        }
+    }
+
+    passwordConfirmation.addEventListener("input", confirmPassword);
+
+</script>
+
+{% endblock %}
