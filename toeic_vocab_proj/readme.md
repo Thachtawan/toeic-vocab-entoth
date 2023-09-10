@@ -1,4 +1,4 @@
-# TOEIC Vocabulary TUTOR (EN-TH)
+# TOEIC Vocabulary TUTOR (EN-TH) - OnGoing
 #### Description:
 - This project is for Thai people who has a problem with remembering the english words.
 Users will play the quiz game which has the question and select the answer from 4 choices.
