@@ -26,6 +26,7 @@ def index(request):
         request.session[USERNAME] = ""
         return render(request, HOME_TP)
 
+
 def login(request):
     if request.method == "POST":
         # Receive user data

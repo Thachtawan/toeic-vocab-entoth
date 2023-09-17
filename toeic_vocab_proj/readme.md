@@ -2,7 +2,7 @@
 #### Description:
 - This project is for Thai people who has a problem with remembering the english words.
 Users will play the quiz game which has the question and select the answer from 4 choices.
-The vocabulary will be seperated by "Parts of Speech" which is noun, verb, adverb, adjective and preposition.
+The vocabulary will be seperated by the following categories "CEFR, Oxford 3000, Academic and Part of Speech".
 Users can also choose which part they want to practice by their preference.
 #
 
