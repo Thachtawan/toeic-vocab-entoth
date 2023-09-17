@@ -4814,13 +4814,13 @@
 4813,W,whereby,adverb,C1,โดยที่,0,1
 4814,W,wherever,conjunction,B2,ทุกที่,1,0
 4815,W,whether,conjunction,B1,ไม่ว่า,1,0
-4816,W,which,determiner,A1,ที่,1,0
+4816,W,which,determiner,A1,"ที่, ซึ่ง",1,0
 4817,W,while,conjunction,A2,ในขณะที่,1,0
 4818,W,whilst,conjunction,C1,ในขณะที่,0,0
 4819,W,whip,verb,C1,แส้,0,0
 4820,W,whisper,noun,B2,กระซิบ,1,0
 4821,W,white,adjective,A1,สีขาว,1,0
-4822,W,who,pronoun,A1,WHO,1,0
+4822,W,who,pronoun,A1,ใคร,1,0
 4823,W,whoever,pronoun,B2,ใครก็ตาม,0,0
 4824,W,whole,adjective,A2,ทั้งหมด สมบูรณ์ ไม่มีการแบ่งแยก ครบถ้วน,1,0
 4825,W,wholly,adverb,C1,ทั้งหมด,0,0
@@ -4864,7 +4864,6 @@
 4863,W,wood,noun,A2,ไม้,1,0
 4864,W,wooden,adjective,A2,ทำด้วยไม้,1,0
 4865,W,wool,noun,B1,ขนสัตว์,1,0
-4866,W,word,part of speech,cefr,meaning,oxford,academic
 4867,W,work,noun,A1,งาน,1,0
 4868,W,worker,noun,A1,คนงาน,1,0
 4869,W,workforce,noun,B2,พนักงาน,0,0

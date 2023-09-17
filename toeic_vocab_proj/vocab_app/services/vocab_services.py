@@ -40,10 +40,10 @@ def get_vocabulary_by_main_menu(request):
     # get data from csv
     df = pd.read_csv(CSVPATH)
     if selected_main_menu == VOCAB_MENU[1]:
-        vocab_list = df[df["oxford"] == "1"].values.tolist()
+        vocab_list = df[df["oxford"] == 1].values.tolist()
 
     elif selected_main_menu == VOCAB_MENU[2]:
-        vocab_list = df[df["academic"] == "1"].values.tolist()
+        vocab_list = df[df["academic"] == 1].values.tolist()
 
     print(vocab_list)
     return vocab_list

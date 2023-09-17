@@ -52,6 +52,6 @@ def reset_session(request):
     request.session[SELECTED_MAIN_MENU] = ""
     request.session[SELECTED_SUB_MENU] = ""
     request.session[SELECTED_MODE] = ""
-    request.session[SELECTED_PART] = ""
+    request.session[SELECTED_PART] = 0
     request.session[IS_FROM_SUB_MENU] = False
     
