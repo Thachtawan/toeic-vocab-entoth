@@ -1,0 +1,48 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : SELECT SUB-MENU</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="menu-container">
+
+    {% if page == "select_sub_menu" %}
+
+    {% for menu in menu_list %}
+
+    <form method="post" action="sub_menu">
+        {% csrf_token %}
+        <input name="menu" value="{{ menu }}" style="display: none;">
+        <button class="select-practice-type">
+            {{ menu }}
+        </button>
+    </form>
+
+    {% endfor %}
+
+    {% elif page == "select_mode" %}
+
+    {% for menu in menu_list %}
+
+    {% if vocab_length > menu %}
+
+    <form method="post" action="word_amount_menu">
+        {% csrf_token %}
+        <input name="menu" value="{{ menu }}" style="display: none;">
+        <button class="select-practice-type">
+            {{ menu }} words
+        </button>
+    </form>
+
+    {% endif %}
+
+    {% endfor %}
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

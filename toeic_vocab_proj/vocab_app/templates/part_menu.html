@@ -1,0 +1,31 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>TOEIC VOCABULARY EN-TH : SELECT PART</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="menu-container">
+
+    {% for part_num in part_list %}
+
+    <form method="post" action="practice_vocab">
+        {% csrf_token %}
+        <input name="menu" value="{{ part_num }}" style="display: none;">
+        
+        <button class="select-part">
+            {% if sub_menu == "" %}
+            {{ main_menu }} - Part {{ part_num }}
+            {% else %}
+            {{ sub_menu }} - Part {{ part_num }}
+            {% endif %}
+        </button>
+
+    </form>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

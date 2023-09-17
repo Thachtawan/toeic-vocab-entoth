@@ -1,24 +1,30 @@
 from django.shortcuts import render, redirect
 from .services.app_services import service_login, service_register_user, reset_session
-from .services.vocab_services import get_vocabulary_type, get_vocabulary, get_vocabulary_length_by_type, create_choices, check_result, get_correct_answer
-from .services.model_services import create_next_model, create_check_answer_model, create_total_result_model
-from .constants.const_path import MAIN, PRACTICE_VOCAB, SHOW_RESULT
-from .constants.const_session_request import USERNAME, PASSWORD, MENU, VOCAB_TYPE, VOCAB_CATEGORY, VOCAB_LIST, CHOICE, CHOICES, SUM_OF_CHECK, SUM_OF_NEXT, PAGE
-from .constants.const_template import HOME, FORM, MAINMENU, PRACTICE, PT_VOCAB, RESULT
+from .services.vocab_services import get_vocabulary, create_choices, check_result, get_correct_answer
+from .services.model_services import create_next_model, create_check_answer_model, create_total_result_model, \
+    create_sub_menu_model, create_mode_model, create_part_model
+from .constants.const_path import MAIN_MENU, SUB_MENU, WORD_AMOUNT_MENU, PRACTICE_VOCAB, SHOW_RESULT
+from .constants.const_session_request import USERNAME, PASSWORD, MENU, VOCAB_LIST, CHOICE, \
+    CHOICES, SUM_OF_CHECK, SUM_OF_NEXT, PAGE
+from .constants.const_template import HOME_TP, FORM_TP, MAINMENU_TP, SUB_MENU_TP, PRACTICE_TP, \
+    PT_VOCAB_TP, RESULT_TP, PART_MENU_TP
 from .constants.cosnt_action import LOGIN, REGISTER
-from .constants.const_variable import TOTAL_WORD, CORRECT_ANSWER, CURRENT_WORD_INDEX, VOCAB_CATEGORIES
+from .constants.const_variable import TOTAL_WORD, CORRECT_ANSWER, CURRENT_WORD_INDEX, \
+    VOCAB_MENU, SELECTED_MAIN_MENU, SELECTED_SUB_MENU, SELECTED_MODE, SELECTED_MENU, \
+    SELECTED_PART, IS_FROM_SUB_MENU
+from .versions.versions import VERSIONS
 
 
 def index(request):
     try:
         if request.session[USERNAME] != "":
-            return redirect(MAIN)
+            return redirect(MAIN_MENU)
     
         request.session[USERNAME] = ""
-        return render(request, HOME)
+        return render(request, HOME_TP)
     except:
         request.session[USERNAME] = ""
-        return render(request, HOME)
+        return render(request, HOME_TP)
 
 def login(request):
     if request.method == "POST":
@@ -30,18 +36,18 @@ def login(request):
         result = service_login(username, password)
         if result == True:
             request.session[USERNAME] = username
-            return redirect(MAIN)
+            return redirect(MAIN_MENU)
         else:
             model = {
                 "action": LOGIN,
                 "status": "fail"
             }
-            return render(request, FORM, model)
+            return render(request, FORM_TP, model)
     else:
         model = {
             "action": LOGIN
         }
-        return render(request, FORM, model)
+        return render(request, FORM_TP, model)
 
 
 def register(request):
@@ -59,13 +65,13 @@ def register(request):
                 "action": REGISTER,
                 "status": "fail"
             }
-            return render(request, FORM, model)
+            return render(request, FORM_TP, model)
     
     else:
         model = {
             "action": REGISTER
         }
-        return render(request, FORM, model)
+        return render(request, FORM_TP, model)
 
 
 def log_out(request):
@@ -74,55 +80,63 @@ def log_out(request):
 
 
 def main_menu(request):
-    # reset all vocab session
-    reset_session(request)
+    if request.method == "GET":
+        # reset all vocab session
+        reset_session(request)
 
-    # get username to use on display
-    username = request.session[USERNAME]
-    request.session[PAGE] = "select_type"
-
-    # get category from the csv vocabulary file
-    word_type = get_vocabulary_type()
-    print(word_type)
-
-    model = {
-        "username": username,
-        "menu_list": word_type
-    }
-    return render(request, MAINMENU, model)
-
-
-def select_menu(request):
-    selected_type = request.POST[MENU]
-
-    request.session[VOCAB_TYPE] = selected_type
-    print(request.session[VOCAB_TYPE])
-
-    # check if vocab length is larger than 100
-    vocab_length = get_vocabulary_length_by_type(selected_type)
-    print(vocab_length)
-    if vocab_length > 100:
+        # get username to use on display
         username = request.session[USERNAME]
-        request.session[PAGE] = "select_category"
+        request.session[PAGE] = "select_type"
 
         model = {
             "username": username,
-            "menu_list": VOCAB_CATEGORIES,
-            "page": "select_category"
+            "menu_list": VOCAB_MENU
         }
-        return render(request, MAINMENU, model)
+        return render(request, MAINMENU_TP, model)
+    
+    else: # POST
+        selected_main_menu = request.POST[MENU]
+        request.session[SELECTED_MENU] = request.POST[MENU]
+        request.session[SELECTED_MAIN_MENU] = selected_main_menu
+        return redirect(SUB_MENU)
+
+
+def sub_menu(request):
+    if request.method == "GET":
+        model = create_sub_menu_model(request)
+        print(model)
+        return render(request, SUB_MENU_TP, model)
     else:
-        request.session[VOCAB_CATEGORY] = ""
-        return redirect(PRACTICE_VOCAB)
+        request.session[SELECTED_SUB_MENU] = request.POST[MENU]
+        model = create_mode_model(request)
+        print(model)
 
+        # check if the word amount is less than 100
+        if model["vocab_length"] < 100:
+            request.session[IS_FROM_SUB_MENU] = True
+            return redirect(PRACTICE_VOCAB)
+        else:
+            return redirect(WORD_AMOUNT_MENU)
+        
 
-def select_menu_category(request):
-    selected_category = request.POST[MENU]
-    request.session[VOCAB_CATEGORY] = selected_category
-    return redirect(PRACTICE_VOCAB)
+def word_amount_menu(request):
+    if request.method == "GET":
+        model = create_mode_model(request)
+        return render(request, SUB_MENU_TP, model)
+    else:
+        request.session[SELECTED_MODE] = request.POST[MENU]
+        print(request.session[SELECTED_MODE])
+        model = create_part_model(request)
+        print(model)
+
+        return render(request, PART_MENU_TP, model)
 
 
 def practice_vocab(request):
+    # check if this function is invoked from submenu directly
+    if request.session[IS_FROM_SUB_MENU] == False:
+        request.session[SELECTED_PART] = request.POST[MENU]
+
     vocab = get_vocabulary(request)
     word_amount = len(vocab)
 
@@ -133,11 +147,12 @@ def practice_vocab(request):
     model = {
         "vocab": vocab,
         "word_amount": word_amount,
-        "type": request.session[VOCAB_TYPE],
-        "category": request.session[VOCAB_CATEGORY],
+        "main_menu": request.session[SELECTED_MAIN_MENU],
+        "sub_menu": request.session[SELECTED_SUB_MENU],
+        "part": request.session[SELECTED_PART],
         "username": request.session[USERNAME]
     }
-    return render(request, PRACTICE, model)
+    return render(request, PRACTICE_TP, model)
 
 
 def start_practice(request):
@@ -147,7 +162,7 @@ def start_practice(request):
 
     # username = request.session[USERNAME]
     next_model = create_next_model(request)
-    return render(request, PT_VOCAB, next_model)
+    return render(request, PT_VOCAB_TP, next_model)
 
 
 def check_answer(request):
@@ -171,7 +186,7 @@ def check_answer(request):
             request.session[CORRECT_ANSWER] += 1
 
     check_model = create_check_answer_model(request, result, answer, correct_answer)
-    return render(request, PT_VOCAB, check_model)
+    return render(request, PT_VOCAB_TP, check_model)
     
 
 def next_question(request):
@@ -182,7 +197,7 @@ def next_question(request):
     # prevent in case of refreshing page or press f5
     if sum_check == sum_next:
         next_model = create_next_model(request)
-        return render(request, PT_VOCAB, next_model)
+        return render(request, PT_VOCAB_TP, next_model)
 
     else:
         # update the current index
@@ -202,9 +217,9 @@ def next_question(request):
 
             # create the next question model
             next_model = create_next_model(request)
-            return render(request, PT_VOCAB, next_model)
+            return render(request, PT_VOCAB_TP, next_model)
         
 
 def show_result(request):
     result_model = create_total_result_model(request)
-    return render(request, RESULT, result_model)
+    return render(request, RESULT_TP, result_model)

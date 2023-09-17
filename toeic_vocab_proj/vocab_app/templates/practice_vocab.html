@@ -10,7 +10,10 @@
 
     <!-- Header -->
     <div class="practice-header">
-        <div style="font-weight: bold;">{{ selected_type }}</div>
+        <div style="font-weight: bold;">
+            {{ main_menu }}{% if sub_menu != "" %} | {{ sub_menu }}{% endif %}
+            Part: {{ part }}<br>
+        </div>
         <div>{{ current_word }} / {{ total_word }}</div>
     </div>
 
@@ -29,7 +32,9 @@
             {{ question }}
         </div>
         <br>
-        <strong>Synonyms:</strong> {{ synonyms }}
+        <div>
+            <strong>Part of Speech: </strong>{{ part_of_speech }}
+        </div>
     </div>
 
     <div class="practice-choices">

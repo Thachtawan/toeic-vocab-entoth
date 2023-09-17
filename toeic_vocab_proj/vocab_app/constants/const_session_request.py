@@ -4,6 +4,8 @@ PASSWORD = "password"
 PAGE = "page"
 
 MENU = "menu"
+LONGMAN = "longman"
+LONGMAN_MODE = "longman_mode"
 CHOICE = "choice"
 CHOICES = "choices"
 SUM_OF_CHECK = "sum_of_check"

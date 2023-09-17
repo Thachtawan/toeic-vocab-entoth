@@ -6,13 +6,11 @@
 
 {% block content %}
 
-<div class="{% if page == "select_category" %}select_category{% else %}menu-container{% endif %}">
-
-    {% if page == "select_category" %}
+<div class="menu-container">
 
     {% for menu in menu_list %}
 
-    <form method="post" action="select_menu_category">
+    <form method="post" action="main_menu">
         {% csrf_token %}
         <input name="menu" value="{{ menu }}" style="display: none;">
         <button class="select-practice-type">
@@ -21,22 +19,6 @@
     </form>
 
     {% endfor %}
-
-    {% else %}
-
-    {% for menu in menu_list %}
-
-    <form method="post" action="select_menu">
-        {% csrf_token %}
-        <input name="menu" value="{{ menu }}" style="display: none;">
-        <button class="select-practice-type">
-            {{ menu }}
-        </button>
-    </form>
-
-    {% endfor %}
-
-    {% endif %}
 
 </div>
 

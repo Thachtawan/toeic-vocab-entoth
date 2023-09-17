@@ -1,6 +1,7 @@
 from vocab_app.models import User
 from ..constants.const_session_request import SUM_OF_CHECK, SUM_OF_NEXT, CHOICES, VOCAB_LIST, VOCAB_TYPE, VOCAB_CATEGORY
-from ..constants.const_variable import CURRENT_WORD_INDEX, CORRECT_ANSWER, TOTAL_WORD
+from ..constants.const_variable import CURRENT_WORD_INDEX, CORRECT_ANSWER, TOTAL_WORD, SELECTED_MAIN_MENU, \
+    SELECTED_SUB_MENU, SELECTED_MODE, IS_FROM_SUB_MENU, SELECTED_PART
 
 
 def service_register_user(_username, _password):
@@ -48,3 +49,9 @@ def reset_session(request):
     request.session[VOCAB_LIST] = []
     request.session[VOCAB_TYPE] = ""
     request.session[VOCAB_CATEGORY] = ""
+    request.session[SELECTED_MAIN_MENU] = ""
+    request.session[SELECTED_SUB_MENU] = ""
+    request.session[SELECTED_MODE] = ""
+    request.session[SELECTED_PART] = ""
+    request.session[IS_FROM_SUB_MENU] = False
+    
