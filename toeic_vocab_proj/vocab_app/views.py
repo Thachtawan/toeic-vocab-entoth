@@ -12,7 +12,6 @@ from .constants.cosnt_action import LOGIN, REGISTER
 from .constants.const_variable import TOTAL_WORD, CORRECT_ANSWER, CURRENT_WORD_INDEX, \
     VOCAB_MENU, SELECTED_MAIN_MENU, SELECTED_SUB_MENU, SELECTED_MODE, SELECTED_MENU, \
     SELECTED_PART, IS_FROM_SUB_MENU
-from .versions.versions import VERSIONS
 
 
 def index(request):

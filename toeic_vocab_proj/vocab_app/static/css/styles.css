@@ -27,6 +27,13 @@ body {
     background-color: var(--softyellowsand);
 }
 
+#current-version {
+    margin-top: 70px;
+    margin-left: 20px;
+    position: absolute;
+    font-size: 12px;
+}
+
 .main-bg {
     background-color: var(--deepblue2);
 }
@@ -206,7 +213,7 @@ body {
 
 .practice-container {
     margin: auto;
-    margin-top: 150px;
+    margin-top: 50px;
     width: 800px;
     height: 400px;
     background-color: white;
@@ -236,7 +243,7 @@ body {
 .practice-header {
     display: flex;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 0px;
     JUSTIFY-CONTENT: space-between;
 }
 
