@@ -19,9 +19,9 @@ def get_vocabulary(request):
     selected_mode = request.session[SELECTED_MODE]
     selected_sub_menu = request.session[SELECTED_SUB_MENU]
     selected_part = request.session[SELECTED_PART]
-    print("selected_mode: " + selected_mode)
-    print("selected_menu: " + selected_sub_menu)
-    print("selected_mode: " + selected_part)
+    print("selected_mode: " + str(selected_mode))
+    print("selected_menu: " + str(selected_sub_menu))
+    print("selected_mode: " + str(selected_part))
     
     if selected_mode != "":
         vocab_by_part = get_vocab_by_part(request)
