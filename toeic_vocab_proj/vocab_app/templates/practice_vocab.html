@@ -19,8 +19,8 @@
 
     <!-- progress bar section -->
 
-    <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="{{ progress }}" aria-valuemin="0"
-        aria-valuemax="100" style="width: 100%; margin-top: 20px">
+    <div class="progress progress_custom" role="progressbar" aria-label="Example with label" aria-valuenow="{{ progress }}" aria-valuemin="0"
+        aria-valuemax="100">
         <div class="progress-bar bg-success" style="width: {{ progress }}%"></div>
     </div>
     <div style="width: 100%; text-align: right; margin-top: 10px;">{{ progress }}%</div>
@@ -78,7 +78,7 @@
         {% endfor %}
     </div>
 
-    <!-- next button and answer result section -->
+    <!-- next button section -->
     {% if is_correct == True or is_correct == False %}
 
     <div class="result-answer">

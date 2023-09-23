@@ -254,6 +254,11 @@ body {
     padding: 30px;
 }
 
+.progress_custom {
+    width: 100%;
+    margin-top: 20px;
+}
+
 .practice-question-box {
     margin: auto;
     margin-top: 20px;
@@ -371,6 +376,10 @@ body {
         font-size: 18px;
         border: 2px solid white;
     }
+    
+    .progress_custom {
+        margin-top: 5px;
+    }
 }
 
 @media (min-width: 551px) {
@@ -397,13 +406,19 @@ body {
         margin-bottom: 50px;
     }
 
+    .menu-container {
+        padding-top: 10px;
+    }
+
     .practice-container {
         width: 85%;
         height: 280px;
     }
+    
 
     .practice-container-start {
         padding: 15px;
+        padding-top: 0px;
         width: 100%;
     }
 
@@ -411,6 +426,8 @@ body {
         width: 100%;
         height: auto;
         padding: 15px;
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
     .practice-choices {
