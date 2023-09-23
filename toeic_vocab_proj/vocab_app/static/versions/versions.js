@@ -10,5 +10,9 @@ versions = [
     {
         "version": "2.1.0",
         "version-details": "Add Enter Button feature (User can now press Enter Button to get the next question on PC)"
+    },
+    {
+        "version": "2.1.1",
+        "version-details": "Fix validation for password confirmation when register."
     }
 ]

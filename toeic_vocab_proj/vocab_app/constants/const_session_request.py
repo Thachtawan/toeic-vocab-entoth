@@ -1,6 +1,7 @@
 # session and request name
 USERNAME = "username"
 PASSWORD = "password"
+PASSWORD_2 = "password_2"
 PAGE = "page"
 
 MENU = "menu"

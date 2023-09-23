@@ -44,8 +44,10 @@
             <input id="password-confirmation" type="password" name="password_2" class="form-control">
         </div>
         <input type="submit" value="Submit" class="btn btn-success">
-        {% if status != None and status == "fail"%}
-        <div>This username has already been used.</div>
+        {% if status != None and status == "fail_1"%}
+        <div class="register-error">The password confirmation is incorrect.</div>
+        {% elif status != None and status == "fail_2"%}
+        <div class="register-error">This username has already been used.</div>
         {% endif %}
     </form>
     

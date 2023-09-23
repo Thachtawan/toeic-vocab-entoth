@@ -4,7 +4,7 @@ from .services.vocab_services import get_vocabulary, create_choices, check_resul
 from .services.model_services import create_next_model, create_check_answer_model, create_total_result_model, \
     create_sub_menu_model, create_mode_model, create_part_model
 from .constants.const_path import MAIN_MENU, SUB_MENU, WORD_AMOUNT_MENU, PRACTICE_VOCAB, SHOW_RESULT
-from .constants.const_session_request import USERNAME, PASSWORD, MENU, VOCAB_LIST, CHOICE, \
+from .constants.const_session_request import USERNAME, PASSWORD, PASSWORD_2, MENU, VOCAB_LIST, CHOICE, \
     CHOICES, SUM_OF_CHECK, SUM_OF_NEXT, PAGE
 from .constants.const_template import HOME_TP, FORM_TP, MAINMENU_TP, SUB_MENU_TP, PRACTICE_TP, \
     PT_VOCAB_TP, RESULT_TP, PART_MENU_TP
@@ -55,6 +55,15 @@ def register(request):
         # Receive user data
         username = request.POST[USERNAME]
         password = request.POST[PASSWORD]
+        confirm_password = request.POST[PASSWORD_2]
+
+        # check if password is correct
+        if password != confirm_password:
+            model = {
+                "action": REGISTER,
+                "status": "fail_1"
+            }
+            return render(request, FORM_TP, model)
 
         # check if username and password is valid
         result = service_register_user(username, password)
@@ -63,7 +72,7 @@ def register(request):
         else:
             model = {
                 "action": REGISTER,
-                "status": "fail"
+                "status": "fail_2"
             }
             return render(request, FORM_TP, model)
     

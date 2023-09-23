@@ -78,6 +78,13 @@ body {
     width: 50%;
 }
 
+.register-error {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 20px;
+    color: red;
+}
+
 .custom-modal {
     width: 100vw;
     height: 100vh;
