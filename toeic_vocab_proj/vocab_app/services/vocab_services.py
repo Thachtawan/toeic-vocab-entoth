@@ -36,7 +36,6 @@ def get_vocabulary_by_main_menu(request):
     vocab_list = []
     selected_main_menu = request.session[SELECTED_MAIN_MENU]
     print("selected_main_menu: " + selected_main_menu)
-    print("main_menu: " + VOCAB_MENU[1])
     # get data from csv
     df = pd.read_csv(CSVPATH)
     if selected_main_menu == VOCAB_MENU[1]:
@@ -45,7 +44,9 @@ def get_vocabulary_by_main_menu(request):
     elif selected_main_menu == VOCAB_MENU[2]:
         vocab_list = df[df["academic"] == 1].values.tolist()
 
-    print(vocab_list)
+    elif selected_main_menu == VOCAB_MENU[4]:
+        vocab_list = df[df["ielts"] == 1].values.tolist()
+
     return vocab_list
 
 
@@ -156,7 +157,7 @@ def get_vocab_by_part(request):
     print(VOCAB_MENU)
     # get data from CSV
     df = pd.read_csv(CSVPATH)
-    if selected_main_menu == VOCAB_MENU[1] or selected_main_menu == VOCAB_MENU[2]:
+    if selected_main_menu == VOCAB_MENU[1] or selected_main_menu == VOCAB_MENU[2] or selected_main_menu == VOCAB_MENU[4]:
         vocab_by_user = get_vocabulary_by_main_menu(request)
 
     else:

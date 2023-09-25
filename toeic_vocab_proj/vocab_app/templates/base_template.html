@@ -19,7 +19,9 @@
     <script src="{% static 'versions/versions.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
+
       $(document).ready(function () {
+        // Log out modal
         $("#logout-btn").click(function () {
           $(".btn-close").click();
           $("#logout-modal").css("display", "block");
@@ -32,7 +34,19 @@
         $("#logout-no").click(function () {
           $("#logout-modal").css("display", "none");
         });
+
+        // Patch notes modal
+        $("#patch-notes-btn").click(function () {
+          $(".btn-close").click();
+          $("#patch-notes-modal").css("display", "block");
+        });
+
+        $("#patch-notes-ok-button").click(function () {
+          $("#patch-notes-modal").css("display", "none");
+        });
+
       });
+
     </script>
 
     {% block title %} {% endblock %}
@@ -51,6 +65,33 @@
         </div>
       </div>
     </div>
+
+    <!-- Patch Notes modal -->
+    <div id="patch-notes-modal" class="custom-modal">
+      <div class="custom-modal-body patch-notes">
+        <h2 class="patch-notes-head">Patch Notes</h2>
+        <div class="patch-notes-text" id="patch-notes-model-detail"></div>
+        <div class="modal-btn-arrange">
+          <button id="patch-notes-ok-button" class="custom-modal-btn">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var patchDetails = document.getElementById("patch-notes-model-detail");
+      console.log(patchDetails);
+      console.log(versions);
+      if (typeof versions !== "undefined" && versions.length > 0) {
+        const lastVersion = versions[versions.length - 1];
+        const versionTxt = lastVersion["version-details"];
+
+        console.log(versionTxt);
+        patchDetails.innerHTML = versionTxt;
+      } else {
+        patchDetails.innerHTML = "No versions found";
+      }
+    </script>
+
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-dark main-bg fixed-top">
@@ -98,9 +139,14 @@
               </li>
               {% endcomment %}
               <li class="nav-item">
-                <a class="nav-link add-cursor-pointer" id="logout-btn"
-                  >Log Out</a
-                >
+                <a class="nav-link add-cursor-pointer" id="logout-btn">
+                  Log Out
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link add-cursor-pointer" id="patch-notes-btn">
+                  Patch Notes
+                </a>
               </li>
             </ul>
           </div>

@@ -48,6 +48,7 @@ def create_sub_menu_model(request):
             "page": "select_mode",
             "vocab_length": len(get_vocabulary_by_main_menu(request))
         }
+    print(model)
     return model
 
 

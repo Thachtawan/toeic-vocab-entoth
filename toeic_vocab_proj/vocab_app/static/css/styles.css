@@ -62,7 +62,7 @@ body {
     flex-direction: column;
     padding-top: 30px;
     justify-content: flex-start;
-
+    margin-top: -80px;
 }
 
 .form-area {
@@ -98,6 +98,7 @@ body {
     display: none;
 }
 
+
 .custom-modal-body {
     margin: auto;
     margin-top: 250px;
@@ -114,9 +115,29 @@ body {
     justify-content: space-evenly;
 }
 
+
+.patch-notes {
+    height: auto!important;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+.patch-notes-head {
+    text-align: center;
+}
+
+
+.patch-notes-text {
+    font-size: 20px;
+    padding: 20px;
+}
+
+
 .custom-modal-text {
     font-size: 28px;
 }
+
 
 .custom-modal-btn {
     background-color: var(--bluebtn);
@@ -371,10 +392,21 @@ body {
         width: 95%;
         height: 200px;
         padding: 10px;
+        margin-top: 150px;
     }
 
     .custom-modal-text {
         font-size: 20px;
+    }
+
+
+    .patch-notes-head {
+        font-size: 20px;
+    }
+    
+    
+    .patch-notes-text {
+        font-size: 15px;
     }
 
     .custom-button {
