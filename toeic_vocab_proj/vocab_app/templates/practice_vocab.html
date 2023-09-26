@@ -40,7 +40,7 @@
     <div class="practice-choices">
         {% for choice in choices %}
 
-        <form method="post" action="check_answer">
+        <form method="post" action="practice_section">
             {% csrf_token %}
             <input name="choice" value="{{ choice }}" style="display: none;">
 
@@ -82,7 +82,7 @@
     {% if is_correct == True or is_correct == False %}
 
     <div class="result-answer">
-        <a id="next-btn" class="btn btn-primary next-question-btn" href="next_question">Next</a>
+        <a id="next-btn" class="btn btn-primary next-question-btn" href="practice_section">Next</a>
     </div>
 
     <script>

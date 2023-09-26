@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .services.app_services import service_login, service_register_user, reset_session
+from .services.app_services import service_login, service_register_user, reset_session, get_session_for_practice_section
 from .services.vocab_services import get_vocabulary, create_choices, check_result, get_correct_answer
 from .services.model_services import create_next_model, create_check_answer_model, create_total_result_model, \
     create_sub_menu_model, create_mode_model, create_part_model
-from .constants.const_path import MAIN_MENU, SUB_MENU, WORD_AMOUNT_MENU, PRACTICE_VOCAB, SHOW_RESULT
+from .constants.const_path import MAIN_MENU, SUB_MENU, WORD_AMOUNT_MENU, PRACTICE_VOCAB, SHOW_RESULT, \
+    PRACTICE_SECTION
 from .constants.const_session_request import USERNAME, PASSWORD, PASSWORD_2, MENU, VOCAB_LIST, CHOICE, \
-    CHOICES, SUM_OF_CHECK, SUM_OF_NEXT, PAGE
+    CHOICES, SUM_OF_CHECK, SUM_OF_NEXT, PAGE, PRACTICE_STATUS
 from .constants.const_template import HOME_TP, FORM_TP, MAINMENU_TP, SUB_MENU_TP, PRACTICE_TP, \
     PT_VOCAB_TP, RESULT_TP, PART_MENU_TP
 from .constants.cosnt_action import LOGIN, REGISTER
@@ -165,68 +166,84 @@ def practice_vocab(request):
 
 
 def start_practice(request):
+    # reset the session for practice section
+    get_session_for_practice_section(request)
+
     # create choices
     choices = create_choices(request)
     request.session[CHOICES] = choices
+    request.session[PRACTICE_STATUS] = "first_question"
 
-    # username = request.session[USERNAME]
-    next_model = create_next_model(request)
-    return render(request, PT_VOCAB_TP, next_model)
+    return redirect(PRACTICE_SECTION)
 
 
-def check_answer(request):
-    # get answer
-    answer = request.POST[CHOICE]
-
-    # check if the result is correct
-    result = check_result(answer, request)
-    correct_answer = get_correct_answer(request)
-
-    # update page index
-    request.session[SUM_OF_CHECK] += 1
-
-    # check if this is from refresh
-    if (request.session[SUM_OF_CHECK] - request.session[SUM_OF_NEXT]) > 1:
-        request.session[SUM_OF_CHECK] -= 1
-
-    else:
-        # update scores
-        if result == True: 
-            request.session[CORRECT_ANSWER] += 1
-
-    check_model = create_check_answer_model(request, result, answer, correct_answer)
-    return render(request, PT_VOCAB_TP, check_model)
-    
-
-def next_question(request):
-    # get current_index value
-    sum_check = request.session[SUM_OF_CHECK]
-    sum_next = request.session[SUM_OF_NEXT]
-
-    # prevent in case of refreshing page or press f5
-    if sum_check == sum_next:
+def practice_section(request):
+    # check if this is the first question
+    if request.session[PRACTICE_STATUS] == "first_question":
+        # render the first question
         next_model = create_next_model(request)
+        request.session[PRACTICE_STATUS] = "continue_practice"
         return render(request, PT_VOCAB_TP, next_model)
 
-    else:
-        # update the current index
-        request.session[CURRENT_WORD_INDEX] += 1
+    # check answer
+    if request.method == "POST":
+        # get answer
+        answer = request.POST[CHOICE]
 
-        # check if this is the last word
-        if request.session[CURRENT_WORD_INDEX] == request.session[TOTAL_WORD]:
-            return redirect(SHOW_RESULT)
+        # check if the result is correct
+        result = check_result(answer, request)
+        correct_answer = get_correct_answer(request)
+
+        # update page index
+        request.session[SUM_OF_CHECK] += 1
+
+        # check if this is from refresh
+        if (request.session[SUM_OF_CHECK] - request.session[SUM_OF_NEXT]) > 1:
+            request.session[SUM_OF_CHECK] -= 1
 
         else:
-            # create choices
-            choices = create_choices(request)
-            request.session[CHOICES] = choices
+            # update scores
+            if result == True: 
+                request.session[CORRECT_ANSWER] += 1
 
-            # update page index
-            request.session[SUM_OF_NEXT] += 1
+        check_model = create_check_answer_model(request, result, answer, correct_answer)
+        return render(request, PT_VOCAB_TP, check_model)
+    
+    # next question
+    if request.method == "GET":
+        # get current_index value
+        sum_check = request.session[SUM_OF_CHECK]
+        sum_next = request.session[SUM_OF_NEXT]
 
-            # create the next question model
+        # prevent in case of refreshing page or press f5
+        if sum_check == sum_next:
             next_model = create_next_model(request)
             return render(request, PT_VOCAB_TP, next_model)
+
+        else:
+            # update the current index
+            request.session[CURRENT_WORD_INDEX] += 1
+
+            # prevent word_index from out of range error
+            if request.session[CURRENT_WORD_INDEX] > request.session[TOTAL_WORD]:
+                request.session[CURRENT_WORD_INDEX] = request.session[TOTAL_WORD]
+                return redirect(SHOW_RESULT)
+
+            # check if this is the last word
+            if request.session[CURRENT_WORD_INDEX] == request.session[TOTAL_WORD]:
+                return redirect(SHOW_RESULT)
+
+            else:
+                # create choices
+                choices = create_choices(request)
+                request.session[CHOICES] = choices
+
+                # update page index
+                request.session[SUM_OF_NEXT] += 1
+
+                # create the next question model
+                next_model = create_next_model(request)
+                return render(request, PT_VOCAB_TP, next_model)
         
 
 def show_result(request):

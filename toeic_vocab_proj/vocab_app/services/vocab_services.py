@@ -124,7 +124,7 @@ def create_choices(request, answer_index = 5):
             choices[blank_index] = choice
 
             # check the choices
-            print(choices)
+            # print(choices)
             choice_count += 1
 
     # check and insert the answer

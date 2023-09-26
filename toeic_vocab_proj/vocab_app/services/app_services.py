@@ -1,5 +1,6 @@
 from vocab_app.models import User
-from ..constants.const_session_request import SUM_OF_CHECK, SUM_OF_NEXT, CHOICES, VOCAB_LIST, VOCAB_TYPE, VOCAB_CATEGORY
+from ..constants.const_session_request import SUM_OF_CHECK, SUM_OF_NEXT, CHOICES, VOCAB_LIST, VOCAB_TYPE, VOCAB_CATEGORY, \
+    PRACTICE_STATUS
 from ..constants.const_variable import CURRENT_WORD_INDEX, CORRECT_ANSWER, TOTAL_WORD, SELECTED_MAIN_MENU, \
     SELECTED_SUB_MENU, SELECTED_MODE, IS_FROM_SUB_MENU, SELECTED_PART
 
@@ -54,4 +55,11 @@ def reset_session(request):
     request.session[SELECTED_MODE] = ""
     request.session[SELECTED_PART] = 0
     request.session[IS_FROM_SUB_MENU] = False
+    request.session[PRACTICE_STATUS] = ""
     
+
+def get_session_for_practice_section(request):
+    request.session[CURRENT_WORD_INDEX] = 0
+    request.session[CORRECT_ANSWER] = 0
+    request.session[SUM_OF_CHECK] = 0
+    request.session[SUM_OF_NEXT] = 0
